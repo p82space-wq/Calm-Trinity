@@ -41,17 +41,27 @@ export function MobileNav({ navItems }: MobileNavProps) {
   const menu = (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-[100] isolate min-h-dvh bg-cream"
-          role="dialog"
-          aria-modal="true"
-          aria-label="モバイルメニュー"
-        >
-          <div className="flex h-full min-h-dvh flex-col px-8 py-6">
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-80 bg-charcoal/50 backdrop-blur-md"
+            onClick={() => setIsOpen(false)}
+            aria-hidden
+          />
+
+          <motion.nav
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+            className="fixed inset-y-0 right-0 z-90 flex w-full max-w-xs flex-col bg-cream px-8 py-6 shadow-2xl"
+            role="dialog"
+            aria-modal="true"
+            aria-label="モバイルメニュー"
+          >
             <div className="flex items-center justify-between">
               <span className="font-serif text-lg tracking-[0.15em] text-forest">
                 Menu
@@ -66,56 +76,56 @@ export function MobileNav({ navItems }: MobileNavProps) {
               </button>
             </div>
 
-            <nav className="flex flex-1 flex-col justify-center">
-              <ul className="space-y-8">
-                {navItems.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      onClick={() => setIsOpen(false)}
-                      className="text-sm uppercase tracking-[0.25em] text-charcoal transition-colors hover:text-forest"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-                <li>
+            <ul className="mt-16 space-y-8">
+              {navItems.map((item) => (
+                <li key={item.href}>
                   <Link
-                    href="/privacy"
+                    href={item.href}
                     onClick={() => setIsOpen(false)}
                     className="text-sm uppercase tracking-[0.25em] text-charcoal transition-colors hover:text-forest"
                   >
-                    Privacy
+                    {item.label}
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href="/legal"
-                    onClick={() => setIsOpen(false)}
-                    className="text-sm uppercase tracking-[0.25em] text-charcoal transition-colors hover:text-forest"
-                  >
-                    Legal
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </motion.div>
+              ))}
+              <li>
+                <Link
+                  href="/privacy"
+                  onClick={() => setIsOpen(false)}
+                  className="text-sm uppercase tracking-[0.25em] text-charcoal transition-colors hover:text-forest"
+                >
+                  Privacy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/legal"
+                  onClick={() => setIsOpen(false)}
+                  className="text-sm uppercase tracking-[0.25em] text-charcoal transition-colors hover:text-forest"
+                >
+                  Legal
+                </Link>
+              </li>
+            </ul>
+          </motion.nav>
+        </>
       )}
     </AnimatePresence>
   );
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setIsOpen(true)}
-        aria-label="メニューを開く"
-        aria-expanded={isOpen}
-        className="flex h-10 w-10 items-center justify-center text-forest transition-colors hover:text-moss md:hidden"
-      >
-        <Menu className="h-5 w-5" strokeWidth={1.5} />
-      </button>
+      {!isOpen && (
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          aria-label="メニューを開く"
+          aria-expanded={isOpen}
+          className="flex h-10 w-10 items-center justify-center text-forest transition-colors hover:text-moss md:hidden"
+        >
+          <Menu className="h-5 w-5" strokeWidth={1.5} />
+        </button>
+      )}
 
       {isClient ? createPortal(menu, document.body) : null}
     </>
