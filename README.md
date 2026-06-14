@@ -59,4 +59,4 @@ NEXT_PUBLIC_SITE_URL=https://calm-trinity.com
 
 ## ドキュメント
 
-仮置きコンテンツの確認・回答シート: [`docs/PLACEHOLDER_QA.md`](docs/PLACEHOLDER_QA.md)
+仮置きコンテンツの確認・回答シート: [`docs/PLACEHOLDER_QA.example.md`](docs/PLACEHOLDER_QA.example.md) を `docs/PLACEHOLDER_QA.md` にコピーしてローカル管理

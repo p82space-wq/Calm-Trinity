@@ -34,6 +34,9 @@ yarn-error.log*
 .env*
 !.env.local.example
 
+# 非公開ドキュメント（回答・APIキー等を記入したローカル専用）
+docs/PLACEHOLDER_QA.md
+
 # vercel
 .vercel
 
