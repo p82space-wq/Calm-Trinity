@@ -30,7 +30,7 @@ export default function OpenGraphImage() {
             marginBottom: 24,
           }}
         >
-          Organic Bath Salt
+          Bath Salt
         </div>
         <div
           style={{

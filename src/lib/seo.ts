@@ -4,12 +4,11 @@ import { contactEmail } from "@/lib/navigation";
 
 export const siteConfig = {
   name: "Calm Trinity",
-  title: "Calm Trinity | Organic Bath Salt",
+  title: "Calm Trinity | Bath Salt",
   description:
-    "植物の恵みを感じる、オーガニックで上質なバスソルトブランド。厳選された天然素材で、心と体をやさしく整える入浴体験をお届けします。",
+    "心理士と薬剤師が考えた、心と身体の両面から回復と整う時間を提供する高品質入浴剤ブランド。",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   locale: "ja_JP",
-  twitterHandle: "@calmtrinity",
 };
 
 type CreateMetadataOptions = {

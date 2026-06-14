@@ -15,12 +15,6 @@ const newsItems = [
     title: "夏季限定「ラベンダー & カモミール」入荷のお知らせ",
     href: "/products",
   },
-  {
-    date: "2026.05.01",
-    tag: "INFO",
-    title: "全国一律送料 ¥550 にてお届け",
-    href: "/guide",
-  },
 ];
 
 export function Information() {

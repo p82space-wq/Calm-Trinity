@@ -9,7 +9,8 @@ export const metadata = createMetadata({
 const faqs = [
   {
     question: "送料はかかりますか？",
-    answer: "全国一律の送料設定を予定しています。詳細は追ってご案内します。",
+    answer:
+      "送料は全国一律 ¥550（税込）です。離島・一部地域へのお届けは対象外となる場合があります。",
   },
   {
     question: "返品・交換はできますか？",
@@ -18,7 +19,8 @@ const faqs = [
   },
   {
     question: "お支払い方法は？",
-    answer: "Stripe Checkout を通じてクレジットカード決済に対応予定です。",
+    answer:
+      "Stripe Checkout を通じてクレジットカード決済（Visa / Mastercard / American Express / JCB）に対応しています。",
   },
 ];
 

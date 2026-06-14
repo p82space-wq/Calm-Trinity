@@ -1,14 +1,26 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
+
+const heroImage =
+  "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=1920&q=80";
 
 export function Hero() {
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-linen via-cream to-cream" />
+      <Image
+        src={heroImage}
+        alt=""
+        fill
+        priority
+        className="object-cover"
+        sizes="100vw"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-cream/85 via-cream/75 to-cream/90" />
       <div
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-20"
         style={{
           backgroundImage:
             "radial-gradient(circle at 20% 50%, #9CAF88 0%, transparent 50%), radial-gradient(circle at 80% 20%, #E8E0D5 0%, transparent 40%)",
@@ -25,9 +37,9 @@ export function Hero() {
           Organic Bath Salt
         </p>
         <h1 className="mt-8 font-serif text-5xl leading-[1.2] text-forest md:text-7xl">
-          静けさに、
+          心×身体×香り、
           <br />
-          溶け込むひととき
+          三位一体の入浴体験を
         </h1>
         <p className="mx-auto mt-10 max-w-lg leading-relaxed text-muted">
           植物の恵みと天然ミネラルを凝縮したバスソルト。
@@ -45,7 +57,7 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5, delay: 0.5 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
+        className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2"
       >
         <div className="flex flex-col items-center gap-2">
           <span className="text-[10px] uppercase tracking-[0.3em] text-stone">

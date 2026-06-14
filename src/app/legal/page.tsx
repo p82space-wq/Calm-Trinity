@@ -1,3 +1,4 @@
+import { contactEmail } from "@/lib/navigation";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
@@ -8,17 +9,20 @@ export const metadata = createMetadata({
 
 const legalItems = [
   { label: "販売業者", value: "Calm Trinity" },
-  { label: "運営責任者", value: "代表 藤井 俊（準備中）" },
-  { label: "所在地", value: "〒000-0000 京都府京都市（準備中）" },
+  { label: "運営責任者", value: "藤井亜香莉" },
+  {
+    label: "所在地",
+    value: "〒558-0054 大阪府大阪市住吉区帝塚山3丁目5-6-307",
+  },
   {
     label: "電話番号",
-    value: "000-0000-0000（受付時間 平日10:00〜18:00）",
+    value: "06-7161-5856（受付時間 平日10:00〜18:00）",
   },
-  { label: "メールアドレス", value: "hello@calmtrinity.example" },
+  { label: "メールアドレス", value: contactEmail },
   { label: "販売価格", value: "各商品ページに税込価格を表示" },
   {
     label: "商品代金以外の必要料金",
-    value: "送料 ¥550（税込・全国一律）",
+    value: "送料 ¥550（税込・離島を除く全国一律）",
   },
   {
     label: "お支払い方法",

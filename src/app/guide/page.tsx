@@ -1,3 +1,4 @@
+import { contactEmail } from "@/lib/navigation";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
@@ -24,7 +25,7 @@ const sections = [
   {
     title: "配送について",
     content:
-      "ご注文確認後、2〜5営業日以内に発送いたします。配送は日本国内に限らせていただきます。送料は全国一律 ¥550（税込）です。",
+      "ご注文確認後、2〜5営業日以内に発送いたします。配送は日本国内に限らせていただきます。送料は離島を除く全国一律 ¥550（税込）です。",
   },
   {
     title: "返品・交換について",
@@ -34,7 +35,7 @@ const sections = [
   {
     title: "お問い合わせ",
     content:
-      "ご不明な点がございましたら、お問い合わせページまたは hello@calmtrinity.example までお気軽にご連絡ください。営業時間: 平日 10:00〜18:00（土日祝を除く）",
+      `ご不明な点がございましたら、お問い合わせページまたは ${contactEmail} までお気軽にご連絡ください。営業時間: 平日 10:00〜18:00（土日祝を除く）`,
   },
 ];
 
