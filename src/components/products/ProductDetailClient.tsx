@@ -17,6 +17,10 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [quantity, setQuantity] = useState(1);
 
   const accordionItems = [
+    product.metadata.care && {
+      title: "おすすめシーン",
+      content: product.metadata.care,
+    },
     product.metadata.ingredients && {
       title: "成分",
       content: product.metadata.ingredients,
@@ -25,9 +29,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       title: "使用方法",
       content: product.metadata.usage,
     },
-    product.metadata.care && {
-      title: "こだわり",
-      content: product.metadata.care,
+    product.metadata.precautions && {
+      title: "使用・保管上の注意",
+      content: product.metadata.precautions,
     },
   ].filter(Boolean) as { title: string; content: string }[];
 
@@ -61,7 +65,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       </p>
 
       {product.description && (
-        <p className="mt-8 leading-relaxed text-muted">{product.description}</p>
+        <p className="mt-8 whitespace-pre-line leading-relaxed text-muted">
+          {product.description}
+        </p>
       )}
 
       <div className="mt-10 flex items-center gap-6">

@@ -1,26 +1,21 @@
-import { BrandStory } from "@/components/home/BrandStory";
-import { FeaturedProducts } from "@/components/home/FeaturedProducts";
+import { About } from "@/components/home/About";
 import { Hero } from "@/components/home/Hero";
-import { Information } from "@/components/home/Information";
-import { getFeaturedProducts, getProducts } from "@/lib/products";
+import { HomeProducts } from "@/components/home/HomeProducts";
+import { resolveHomeProducts } from "@/lib/home-products";
+import { getProducts } from "@/lib/products";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata();
 
 export default async function Home() {
-  const featuredProducts = await getFeaturedProducts();
-  const allProducts = await getProducts();
-  const displayProducts =
-    featuredProducts.length > 0
-      ? featuredProducts
-      : allProducts.slice(0, 6);
+  const products = await getProducts();
+  const homeProducts = resolveHomeProducts(products);
 
   return (
     <>
       <Hero />
-      <BrandStory />
-      <FeaturedProducts products={displayProducts} />
-      <Information />
+      <HomeProducts products={homeProducts} />
+      <About />
     </>
   );
 }

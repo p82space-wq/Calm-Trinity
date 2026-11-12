@@ -2,6 +2,7 @@ export type ProductMetadata = {
   ingredients?: string;
   volume?: string;
   usage?: string;
+  precautions?: string;
   care?: string;
   hoverImage?: string;
   subImages?: string[];

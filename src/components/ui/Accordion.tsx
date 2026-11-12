@@ -43,9 +43,28 @@ export function Accordion({ items }: AccordionProps) {
                   transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                   className="overflow-hidden"
                 >
-                  <p className="pb-5 text-sm leading-relaxed text-muted">
-                    {item.content}
-                  </p>
+                  {(() => {
+                    const lines = item.content
+                      .split("\n")
+                      .map((line) => line.trim())
+                      .filter(Boolean);
+
+                    if (lines.length > 1) {
+                      return (
+                        <ul className="list-disc space-y-2 pb-5 pl-5 text-sm leading-relaxed text-muted">
+                          {lines.map((line) => (
+                            <li key={line}>{line}</li>
+                          ))}
+                        </ul>
+                      );
+                    }
+
+                    return (
+                      <p className="whitespace-pre-line pb-5 text-sm leading-relaxed text-muted">
+                        {item.content}
+                      </p>
+                    );
+                  })()}
                 </motion.div>
               )}
             </AnimatePresence>

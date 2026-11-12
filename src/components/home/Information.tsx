@@ -1,21 +1,7 @@
 import Link from "next/link";
 
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-
-const newsItems = [
-  {
-    date: "2026.06.01",
-    tag: "NEW",
-    title: "Calm Trinity オンラインストア オープンのお知らせ",
-    href: "/products",
-  },
-  {
-    date: "2026.05.20",
-    tag: "INFO",
-    title: "夏季限定「ラベンダー & カモミール」入荷のお知らせ",
-    href: "/products",
-  },
-];
+import { newsItems } from "@/lib/news";
 
 export function Information() {
   return (
@@ -23,17 +9,17 @@ export function Information() {
       <div className="mx-auto max-w-3xl px-6">
         <ScrollReveal className="text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-stone">
-            Information
+            News
           </p>
           <h2 className="mt-4 font-serif text-3xl text-forest">お知らせ</h2>
         </ScrollReveal>
 
         <ul className="mt-14 space-y-0">
           {newsItems.map((item, index) => (
-            <li key={item.title} className="border-b border-sand">
+            <li key={item.id} className="border-b border-sand">
               <ScrollReveal delay={index * 0.08}>
                 <Link
-                  href={item.href}
+                  href="/news"
                   className="group flex flex-col gap-2 py-6 transition-colors hover:text-forest sm:flex-row sm:items-center sm:gap-6"
                 >
                   <time className="shrink-0 text-xs tracking-wider text-stone">

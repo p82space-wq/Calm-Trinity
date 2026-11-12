@@ -21,6 +21,7 @@
   --color-muted: #6b6b6b;
   --font-serif: var(--font-cormorant);
   --font-sans: var(--font-noto-sans);
+  --font-script: var(--font-great-vibes);
   --spacing-section: 7.5rem;
 }
 

@@ -16,8 +16,7 @@ const products = [
     ],
     metadata: {
       ingredients: "天然海塩, ラベンダー精油, カモミール精油, ホホバオイル",
-      volume: "300g",
-      usage: "湯船に大さじ2〜3杯（約30g）を入れ、よく溶かしてご使用ください。",
+      usage: "１４０L〜１６０Lのお湯に対して１包を目安にご使用ください。",
       care: "京都の工房で一つひとつ手作業でブレンド。合成香料・着色料不使用。",
       hover_image:
         "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80",
@@ -35,8 +34,7 @@ const products = [
     ],
     metadata: {
       ingredients: "天然海塩, ユーカリ精油, ペパーミント精油, セージ精油",
-      volume: "300g",
-      usage: "湯船に大さじ2〜3杯を入れ、よく溶かしてご使用ください。",
+      usage: "１４０L〜１６０Lのお湯に対して１包を目安にご使用ください。",
       care: "オーガニック認証原料を使用。肌にやさしい弱酸性処方。",
       hover_image:
         "https://images.unsplash.com/photo-1515377900263-cffed993eb15?w=800&q=80",
@@ -54,8 +52,7 @@ const products = [
     ],
     metadata: {
       ingredients: "天然海塩, ローズ精油, ゼラニウム精油, ダマスクバラ花水",
-      volume: "250g",
-      usage: "湯船に大さじ2杯を入れ、よく溶かしてご使用ください。",
+      usage: "１４０L〜１６０Lのお湯に対して１包を目安にご使用ください。",
       care: "ダマスクバラの花水を贅沢に配合したプレミアムライン。",
       featured: "false",
       sort_order: "3",
@@ -71,8 +68,7 @@ const products = [
     ],
     metadata: {
       ingredients: "天然海塩, ヒノキ精油, スギ精油, 檜葉エキス",
-      volume: "300g",
-      usage: "湯船に大さじ2〜3杯を入れ、よく溶かしてご使用ください。",
+      usage: "１４０L〜１６０Lのお湯に対して１包を目安にご使用ください。",
       care: "京都産ヒノキの葉を低温抽出。森林浴のような清々しい香り。",
       hover_image:
         "https://images.unsplash.com/photo-1518882605630-740ebfc2a9eb?w=800&q=80",

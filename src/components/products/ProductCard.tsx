@@ -50,15 +50,16 @@ export function ProductCard({
       transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
     >
       <Link href={`/products/${product.id}`} className="block">
-        <div className="relative aspect-[3/4] overflow-hidden bg-linen">
+        <div className="relative aspect-[4/5] overflow-hidden bg-linen">
           {mainImage ? (
             <>
               <SafeProductImage
                 src={mainImage}
                 alt={product.name}
                 priority={priority}
+                quality={92}
                 sizes="(max-width: 768px) 50vw, 25vw"
-                className={`object-cover transition-opacity duration-500 ease-smooth ${
+                className={`object-cover object-center transition-opacity duration-500 ease-smooth ${
                   isHovered && hoverImage !== mainImage ? "opacity-0" : "opacity-100"
                 }`}
               />
@@ -66,8 +67,9 @@ export function ProductCard({
                 <SafeProductImage
                   src={hoverImage}
                   alt=""
+                  quality={92}
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className={`object-cover transition-opacity duration-500 ease-smooth ${
+                  className={`object-cover object-center transition-opacity duration-500 ease-smooth ${
                     isHovered ? "opacity-100" : "opacity-0"
                   }`}
                 />

@@ -26,8 +26,9 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
           src={activeImage}
           alt={productName}
           priority
+          quality={92}
           sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover"
+          className="object-cover object-center"
         />
       </div>
 

@@ -46,7 +46,7 @@ npm run seed:stripe  # Stripe にテスト商品を登録（初回セットア�
 
 ## 商品管理
 
-商品は Stripe Dashboard から管理します（Pure Care / Mood Rest / Bloom Care 等）。
+商品は Stripe Dashboard から管理します（Bloom / Mood / Pure 等）。
 サイトは Stripe API 経由で商品情報を取得して表示します。
 
 ## デプロイ

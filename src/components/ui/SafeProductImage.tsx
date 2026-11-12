@@ -12,6 +12,7 @@ type SafeProductImageProps = {
   priority?: boolean;
   sizes?: string;
   className?: string;
+  quality?: number;
 };
 
 export function SafeProductImage({
@@ -21,6 +22,7 @@ export function SafeProductImage({
   priority = false,
   sizes,
   className = "",
+  quality = 90,
 }: SafeProductImageProps) {
   const [hasError, setHasError] = useState(false);
 
@@ -35,6 +37,7 @@ export function SafeProductImage({
       fill={fill}
       priority={priority}
       sizes={sizes}
+      quality={quality}
       className={className}
       onError={() => setHasError(true)}
     />

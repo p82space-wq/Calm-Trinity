@@ -19,6 +19,7 @@ const config: Config = {
       fontFamily: {
         serif: ["var(--font-cormorant)", "serif"],
         sans: ["var(--font-noto-sans)", "sans-serif"],
+        script: ["var(--font-great-vibes)", "cursive"],
       },
       spacing: {
         section: "7.5rem",

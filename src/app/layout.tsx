@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Noto_Sans_JP } from "next/font/google";
+import { Cormorant_Garamond, Great_Vibes, Noto_Sans_JP } from "next/font/google";
 import { Suspense } from "react";
 
 import { CheckoutStatusBanner } from "@/components/checkout/CheckoutStatusBanner";
@@ -18,6 +18,12 @@ const cormorant = Cormorant_Garamond({
   weight: ["400", "500", "600"],
 });
 
+const greatVibes = Great_Vibes({
+  variable: "--font-great-vibes",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 const notoSans = Noto_Sans_JP({
   variable: "--font-noto-sans",
   subsets: ["latin"],
@@ -34,7 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
-      className={`${cormorant.variable} ${notoSans.variable} h-full`}
+      className={`${cormorant.variable} ${greatVibes.variable} ${notoSans.variable} h-full`}
     >
       <body className="flex min-h-full flex-col">
         <JsonLd data={organizationJsonLd} />

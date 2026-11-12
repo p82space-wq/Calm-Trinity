@@ -6,7 +6,8 @@ import { ShoppingBag } from "lucide-react";
 
 import { useCart } from "@/hooks/useCart";
 import { MobileNav } from "@/components/layout/MobileNav";
-import { navItems } from "@/lib/navigation";
+import { InstagramIcon } from "@/components/ui/InstagramIcon";
+import { instagramUrl, navItems } from "@/lib/navigation";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -27,31 +28,49 @@ export function Header() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-smooth ${
         isScrolled
-          ? "border-b border-sand/60 bg-cream/85 backdrop-blur-md"
+          ? "border-b border-sand/50 bg-cream/90 backdrop-blur-md"
           : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:h-20">
+      <div className="mx-auto grid h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-6 lg:h-20 lg:px-10">
         <Link
           href="/"
-          className="font-serif text-xl tracking-[0.2em] text-forest transition-colors hover:text-moss lg:text-2xl"
+          className="justify-self-start whitespace-nowrap font-serif text-lg tracking-[0.14em] text-forest transition-colors hover:text-moss sm:text-xl lg:text-2xl"
         >
           Calm Trinity
         </Link>
 
-        <nav className="hidden items-center gap-10 md:flex">
+        <nav className="hidden items-center gap-8 md:flex">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-xs uppercase tracking-[0.25em] text-charcoal transition-colors hover:text-forest"
+              className="text-[11px] uppercase tracking-[0.22em] text-charcoal/80 transition-colors hover:text-forest"
             >
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center justify-self-end gap-1">
+          {instagramUrl ? (
+            <a
+              href={instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="flex h-10 w-10 items-center justify-center text-forest transition-colors hover:text-moss"
+            >
+              <InstagramIcon />
+            </a>
+          ) : (
+            <span
+              aria-hidden
+              className="flex h-10 w-10 items-center justify-center text-forest/40"
+            >
+              <InstagramIcon />
+            </span>
+          )}
           <button
             type="button"
             onClick={openCart}

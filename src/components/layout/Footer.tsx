@@ -1,65 +1,84 @@
-import Link from "next/link";
+"use client";
 
-import { contactEmail, footerLinks } from "@/lib/navigation";
+import Link from "next/link";
+import { ShoppingBag } from "lucide-react";
+
+import { useCart } from "@/hooks/useCart";
+import { InstagramIcon } from "@/components/ui/InstagramIcon";
+import { footerLinks, instagramUrl } from "@/lib/navigation";
 
 export function Footer() {
+  const { openCart } = useCart();
+
   return (
-    <footer className="mt-auto bg-earth text-cream">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-3">
-        <div>
-          <p className="font-serif text-2xl tracking-[0.15em]">Calm Trinity</p>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-sand/90">
-            植物の恵みとミネラルが溶け込んだ、
-            やさしく上質なバスソルトブランド。
+    <footer className="mt-auto border-t border-sand/70 bg-cream">
+      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
+        <div className="relative flex items-center justify-center">
+          <p className="font-serif text-2xl tracking-[0.16em] text-forest md:text-3xl">
+            Calm Trinity
           </p>
+          <div className="absolute right-0 flex items-center gap-1">
+            {instagramUrl ? (
+              <a
+                href={instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="flex h-10 w-10 items-center justify-center text-forest transition-colors hover:text-moss"
+              >
+                <InstagramIcon />
+              </a>
+            ) : (
+              <span
+                aria-hidden
+                className="flex h-10 w-10 items-center justify-center text-forest/40"
+              >
+                <InstagramIcon />
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={openCart}
+              aria-label="カートを開く"
+              className="flex h-10 w-10 items-center justify-center text-forest transition-colors hover:text-moss"
+            >
+              <ShoppingBag className="h-5 w-5" strokeWidth={1.5} />
+            </button>
+          </div>
         </div>
 
-        <div>
-          <p className="text-xs uppercase tracking-[0.25em] text-sand/70">
-            Links
-          </p>
-          <ul className="mt-4 space-y-3">
-            {footerLinks.map((link) => (
-              <li key={link.href}>
+        <p className="mt-8 text-center text-sm tracking-[0.08em] text-muted">
+          あなたの毎日に、やさしい癒しを。
+        </p>
+
+        <div className="mt-12 flex flex-col items-center justify-between gap-6 border-t border-sand/70 pt-8 md:flex-row">
+          <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[11px] uppercase tracking-[0.18em] text-stone">
+            {footerLinks.map((link, index) => (
+              <span key={link.href} className="flex items-center gap-4">
+                {index > 0 && <span className="text-sand">|</span>}
                 <Link
                   href={link.href}
-                  className="text-sm text-cream/90 transition-colors hover:text-cream"
+                  className="transition-colors hover:text-forest"
                 >
                   {link.label}
                 </Link>
-              </li>
+              </span>
             ))}
-          </ul>
-        </div>
+          </nav>
 
-        <div>
-          <p className="text-xs uppercase tracking-[0.25em] text-sand/70">
-            Contact
-          </p>
-          <p className="mt-4 text-sm leading-relaxed text-sand/90">
-            <Link
-              href="/contact"
-              className="transition-colors hover:text-cream"
-            >
-              お問い合わせフォーム
-            </Link>
-            <br />
-            <a
-              href={`mailto:${contactEmail}`}
-              className="transition-colors hover:text-cream"
-            >
-              {contactEmail}
-            </a>
-            <br />
-            営業時間: 平日 10:00 - 18:00
+          <p className="text-[11px] tracking-[0.12em] text-stone/70">
+            &copy; {new Date().getFullYear()} Calm Trinity. All rights reserved.
           </p>
         </div>
-      </div>
 
-      <div className="border-t border-stone/30">
-        <p className="px-6 py-6 text-center text-xs tracking-wider text-sand/60">
-          &copy; {new Date().getFullYear()} Calm Trinity. All rights reserved.
-        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-4 text-[10px] tracking-[0.14em] text-stone/60 md:justify-start">
+          <Link href="/legal" className="transition-colors hover:text-forest">
+            Legal
+          </Link>
+          <Link href="/privacy" className="transition-colors hover:text-forest">
+            Privacy
+          </Link>
+        </div>
       </div>
     </footer>
   );

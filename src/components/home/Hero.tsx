@@ -3,69 +3,70 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 const heroImage =
-  "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=1920&q=80";
+  "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=1920&q=80";
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
+    <section className="relative min-h-[100svh] overflow-hidden">
       <Image
         src={heroImage}
         alt=""
         fill
         priority
-        className="object-cover"
+        className="object-cover object-[70%_center]"
         sizes="100vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-cream/85 via-cream/75 to-cream/90" />
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 50%, #9CAF88 0%, transparent 50%), radial-gradient(circle at 80% 20%, #E8E0D5 0%, transparent 40%)",
-        }}
-      />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#F7F3EE] from-25% via-[#F7F3EE]/90 via-55% to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#F7F3EE]/45 via-transparent to-[#F7F3EE]/20" />
 
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-        className="relative z-10 mx-auto max-w-3xl px-6 text-center"
-      >
-        <p className="text-xs uppercase tracking-[0.4em] text-stone">
-          Organic Bath Salt
-        </p>
-        <h1 className="mt-8 font-serif text-5xl leading-[1.2] text-forest md:text-7xl">
-          心×身体×香り、
-          <br />
-          三位一体の入浴体験を
-        </h1>
-        <p className="mx-auto mt-10 max-w-lg leading-relaxed text-muted">
-          植物の恵みと天然ミネラルを凝縮したバスソルト。
-          肌と心をやさしく包み込む、上質な入浴体験をお届けします。
-        </p>
-        <Link
-          href="/products"
-          className="mt-12 inline-block border border-forest px-12 py-4 text-xs uppercase tracking-[0.25em] text-forest transition-colors duration-300 hover:bg-forest hover:text-cream"
+      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl items-center px-6 pb-24 pt-28 lg:px-10 lg:pt-32">
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+          className="w-full max-w-lg rounded-sm bg-[#F7F3EE]/55 p-6 backdrop-blur-[2px] sm:bg-transparent sm:p-0 sm:backdrop-blur-none"
         >
-          View Products
-        </Link>
-      </motion.div>
+          <p className="text-sm leading-relaxed tracking-[0.06em] text-earth/85 md:text-[15px]">
+            がんばるあなたに、こころとからだのご褒美を。
+          </p>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5, delay: 0.5 }}
-        className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2"
-      >
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-[10px] uppercase tracking-[0.3em] text-stone">
-            Scroll
-          </span>
-          <div className="h-8 w-px animate-pulse bg-stone/50" />
-        </div>
-      </motion.div>
+          <h1 className="mt-5 font-serif text-[clamp(2.75rem,8vw,5.75rem)] leading-[1.1] tracking-[0.04em] text-forest">
+            Calm Trinity
+          </h1>
+
+          <p className="mt-4 font-serif text-base tracking-[0.05em] text-earth md:text-xl">
+            Bath Salt for a Better Tomorrow
+          </p>
+
+          <p className="mt-7 max-w-md text-sm leading-[1.95] text-muted md:text-[15px]">
+            薬剤師と心理士が手がけた、大人の女性のためのバスソルトブランド。
+            科学的な視点と心のケアを重ね、毎日のバスタイムに
+            「癒し」と「整う時間」をお届けします。
+          </p>
+
+          <Link
+            href="/products"
+            className="mt-10 inline-flex items-center gap-3 rounded-full border border-forest/35 bg-cream/80 px-8 py-3.5 text-sm tracking-[0.12em] text-forest backdrop-blur-sm transition-all duration-300 hover:border-forest hover:bg-forest hover:text-cream"
+          >
+            商品を見る
+            <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
+          </Link>
+        </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, delay: 0.45 }}
+          className="pointer-events-none absolute bottom-[16%] right-6 hidden font-script text-3xl leading-snug text-forest/50 lg:right-14 lg:block lg:text-[2.75rem]"
+        >
+          Take a deep breath,
+          <br />
+          for yourself.
+        </motion.p>
+      </div>
     </section>
   );
 }

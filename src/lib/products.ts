@@ -4,21 +4,34 @@ import { unstable_cache } from "next/cache";
 import type Stripe from "stripe";
 
 import {
+  DEFAULT_USAGE,
+  getPrecautionsForProduct,
+} from "@/lib/product-copy";
+import {
   fetchStripeProductById,
   fetchStripeProducts,
 } from "@/lib/stripe";
 import type { CalmProduct, ProductMetadata } from "@/types/product";
 
-function parseMetadata(metadata: Stripe.Metadata): ProductMetadata {
+function parseMetadata(
+  metadata: Stripe.Metadata,
+  productName: string,
+): ProductMetadata {
   const subImages = metadata.sub_images
     ?.split(",")
     .map((url) => url.trim())
     .filter(Boolean);
 
+  // 「250g」などのグラム表記は表示しない
+  const rawVolume = metadata.volume?.trim();
+  const volume =
+    rawVolume && !/\d+\s*g$/i.test(rawVolume) ? rawVolume : undefined;
+
   return {
     ingredients: metadata.ingredients || undefined,
-    volume: metadata.volume || undefined,
-    usage: metadata.usage || undefined,
+    volume,
+    usage: metadata.usage || DEFAULT_USAGE,
+    precautions: getPrecautionsForProduct(productName),
     care: metadata.care || undefined,
     hoverImage: metadata.hover_image || undefined,
     subImages: subImages?.length ? subImages : undefined,
@@ -53,16 +66,36 @@ export function toCalmProduct(
     return null;
   }
 
+  const localImages = resolveLocalProductImages(stripeProduct.name);
+
   return {
     id: stripeProduct.id,
     name: stripeProduct.name,
     description: stripeProduct.description,
-    images: stripeProduct.images,
+    images: localImages ?? stripeProduct.images,
     priceId: defaultPrice.id,
     unitAmount: defaultPrice.unit_amount,
     currency: defaultPrice.currency,
-    metadata: parseMetadata(stripeProduct.metadata),
+    metadata: parseMetadata(stripeProduct.metadata, stripeProduct.name),
   };
+}
+
+/** ローカルに用意した商品写真があれば Stripe 画像より優先 */
+function resolveLocalProductImages(name: string): string[] | null {
+  if (/trinity\s*set|セット/i.test(name)) {
+    return ["/images/products/set-v2.jpg"];
+  }
+  if (/bloom/i.test(name)) {
+    return ["/images/products/bloom-v2.jpg"];
+  }
+  if (/mood/i.test(name)) {
+    return ["/images/products/mood-v2.jpg"];
+  }
+  if (/pure/i.test(name)) {
+    return ["/images/products/pure-v2.jpg"];
+  }
+
+  return null;
 }
 
 function sortProducts(products: CalmProduct[]): CalmProduct[] {
@@ -80,7 +113,7 @@ function sortProducts(products: CalmProduct[]): CalmProduct[] {
 
 const getCachedStripeProducts = unstable_cache(
   async () => fetchStripeProducts(),
-  ["stripe-products"],
+  ["stripe-products-v17"],
   { revalidate: 60 },
 );
 
