@@ -18,7 +18,6 @@ export const footerLinks = [
   { href: "/contact", label: "Contact" },
 ] as const;
 
-export const contactEmail =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "calamtrinity82@gmail.com";
+export const contactEmail = "calamtrinity82@gmail.com";
 
 export const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "";
