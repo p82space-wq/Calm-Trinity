@@ -20,4 +20,4 @@ export const footerLinks = [
 
 export const contactEmail = "calamtrinity82@gmail.com";
 
-export const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "";
+export const instagramUrl = "https://www.instagram.com/calmtrinity_care/";
