@@ -19,6 +19,6 @@ export const footerLinks = [
 ] as const;
 
 export const contactEmail =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@calmtrinity.example";
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "calamtrinity82@gmail.com";
 
 export const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "";
