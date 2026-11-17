@@ -92,7 +92,7 @@ function resolveLocalProductImages(name: string): string[] | null {
     return ["/images/products/mood-v2.jpg"];
   }
   if (/pure/i.test(name)) {
-    return ["/images/products/pure-v2.jpg"];
+    return ["/images/products/pure-v3.jpg"];
   }
 
   return null;
@@ -113,7 +113,7 @@ function sortProducts(products: CalmProduct[]): CalmProduct[] {
 
 const getCachedStripeProducts = unstable_cache(
   async () => fetchStripeProducts(),
-  ["stripe-products-v17"],
+  ["stripe-products-v18"],
   { revalidate: 60 },
 );
 

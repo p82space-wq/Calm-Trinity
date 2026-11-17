@@ -47,7 +47,7 @@ export const homeProductShowcases: HomeProductShowcase[] = [
     scent: "Unscented × Moisture",
     description: "飾らない自分で過ごす、シンプルな時間。",
     tone: "pure",
-    fallbackImage: "/images/products/pure-v2.jpg",
+    fallbackImage: "/images/products/pure-v3.jpg",
     imageAspect: "aspect-[4/5]",
     imageClassName: "object-cover object-center",
     match: /pure/i,
