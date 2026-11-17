@@ -87,7 +87,7 @@ export function toCalmProduct(
 /** ローカルに用意した商品写真があれば Stripe 画像より優先 */
 function resolveLocalProductImages(name: string): string[] | null {
   if (/trinity\s*set|セット/i.test(name)) {
-    return ["/images/products/set-v2.jpg"];
+    return ["/images/products/set-v3.jpg"];
   }
   if (/bloom/i.test(name)) {
     return ["/images/products/bloom-v2.jpg"];
@@ -117,7 +117,7 @@ function sortProducts(products: CalmProduct[]): CalmProduct[] {
 
 const getCachedStripeProducts = unstable_cache(
   async () => fetchStripeProducts(),
-  ["stripe-products-v19"],
+  ["stripe-products-v20"],
   { revalidate: 60 },
 );
 

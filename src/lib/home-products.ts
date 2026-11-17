@@ -59,7 +59,7 @@ export const homeProductShowcases: HomeProductShowcase[] = [
     description:
       "3つの香りを揃えたコンプリートセット。その日の気分に合わせてお選びいただけます。",
     tone: "set",
-    fallbackImage: "/images/products/set-v2.jpg",
+    fallbackImage: "/images/products/set-v3.jpg",
     imageAspect: "aspect-[4/5]",
     imageClassName: "object-cover object-center",
     match: /trinity\s*set|セット/i,
