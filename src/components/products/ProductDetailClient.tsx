@@ -63,6 +63,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       <p className="mt-6 text-xl text-charcoal">
         {formatPrice(product.unitAmount, product.currency)}
       </p>
+      <p className="mt-3 text-sm text-muted">
+        ギフト包装（巾着）あり ※220円（税込）
+      </p>
 
       {product.description && (
         <p className="mt-8 whitespace-pre-line leading-relaxed text-muted">
