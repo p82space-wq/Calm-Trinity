@@ -45,6 +45,10 @@ function parseMetadata(
 export function toCalmProduct(
   stripeProduct: Stripe.Product,
 ): CalmProduct | null {
+  if (stripeProduct.metadata?.kind === "addon") {
+    return null;
+  }
+
   const defaultPrice = stripeProduct.default_price;
 
   if (!defaultPrice || typeof defaultPrice === "string") {
@@ -113,7 +117,7 @@ function sortProducts(products: CalmProduct[]): CalmProduct[] {
 
 const getCachedStripeProducts = unstable_cache(
   async () => fetchStripeProducts(),
-  ["stripe-products-v18"],
+  ["stripe-products-v19"],
   { revalidate: 60 },
 );
 

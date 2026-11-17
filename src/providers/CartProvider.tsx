@@ -9,13 +9,24 @@ import {
   useState,
 } from "react";
 
+import {
+  GIFT_WRAP_AMOUNT,
+  cartLineId,
+} from "@/lib/gift-wrap";
+
 export type CartItem = {
+  lineId: string;
   productId: string;
   priceId: string;
   name: string;
   unitAmount: number;
   image: string | null;
   quantity: number;
+  giftWrap: boolean;
+};
+
+type AddItemInput = Omit<CartItem, "quantity" | "lineId" | "giftWrap"> & {
+  giftWrap?: boolean;
 };
 
 type CartContextValue = {
@@ -23,17 +34,59 @@ type CartContextValue = {
   isOpen: boolean;
   totalQuantity: number;
   totalAmount: number;
-  addItem: (item: Omit<CartItem, "quantity">, quantity?: number) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  giftWrapAmount: number;
+  addItem: (item: AddItemInput, quantity?: number) => void;
+  removeItem: (lineId: string) => void;
+  updateQuantity: (lineId: string, quantity: number) => void;
+  setGiftWrap: (lineId: string, giftWrap: boolean) => void;
   clearCart: () => void;
   openCart: () => void;
   closeCart: () => void;
 };
 
-const CART_STORAGE_KEY = "calm-trinity-cart";
+const CART_STORAGE_KEY = "calm-trinity-cart-v2";
 
 const CartContext = createContext<CartContextValue | null>(null);
+
+function normalizeCartItems(raw: unknown): CartItem[] {
+  if (!Array.isArray(raw)) {
+    return [];
+  }
+
+  return raw.flatMap((entry) => {
+    if (!entry || typeof entry !== "object") {
+      return [];
+    }
+
+    const item = entry as Partial<CartItem>;
+    if (
+      typeof item.productId !== "string" ||
+      typeof item.priceId !== "string" ||
+      typeof item.name !== "string" ||
+      typeof item.unitAmount !== "number" ||
+      typeof item.quantity !== "number"
+    ) {
+      return [];
+    }
+
+    const giftWrap = Boolean(item.giftWrap);
+    return [
+      {
+        lineId:
+          typeof item.lineId === "string"
+            ? item.lineId
+            : cartLineId(item.productId, giftWrap),
+        productId: item.productId,
+        priceId: item.priceId,
+        name: item.name,
+        unitAmount: item.unitAmount,
+        image: typeof item.image === "string" ? item.image : null,
+        quantity: item.quantity,
+        giftWrap,
+      },
+    ];
+  });
+}
 
 function readCartFromStorage(): CartItem[] {
   if (typeof window === "undefined") {
@@ -42,7 +95,7 @@ function readCartFromStorage(): CartItem[] {
 
   try {
     const stored = localStorage.getItem(CART_STORAGE_KEY);
-    return stored ? (JSON.parse(stored) as CartItem[]) : [];
+    return stored ? normalizeCartItems(JSON.parse(stored)) : [];
   } catch {
     return [];
   }
@@ -56,47 +109,81 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
   }, [items]);
 
-  const addItem = useCallback(
-    (item: Omit<CartItem, "quantity">, quantity = 1) => {
-      setItems((current) => {
-        const existing = current.find(
-          (cartItem) => cartItem.productId === item.productId,
+  const addItem = useCallback((item: AddItemInput, quantity = 1) => {
+    const giftWrap = Boolean(item.giftWrap);
+    const lineId = cartLineId(item.productId, giftWrap);
+
+    setItems((current) => {
+      const existing = current.find((cartItem) => cartItem.lineId === lineId);
+
+      if (existing) {
+        return current.map((cartItem) =>
+          cartItem.lineId === lineId
+            ? { ...cartItem, quantity: cartItem.quantity + quantity }
+            : cartItem,
         );
+      }
 
-        if (existing) {
-          return current.map((cartItem) =>
-            cartItem.productId === item.productId
-              ? { ...cartItem, quantity: cartItem.quantity + quantity }
-              : cartItem,
-          );
-        }
-
-        return [...current, { ...item, quantity }];
-      });
-      setIsOpen(true);
-    },
-    [],
-  );
-
-  const removeItem = useCallback((productId: string) => {
-    setItems((current) =>
-      current.filter((item) => item.productId !== productId),
-    );
+      return [
+        ...current,
+        {
+          ...item,
+          giftWrap,
+          lineId,
+          quantity,
+        },
+      ];
+    });
+    setIsOpen(true);
   }, []);
 
-  const updateQuantity = useCallback((productId: string, quantity: number) => {
+  const removeItem = useCallback((lineId: string) => {
+    setItems((current) => current.filter((item) => item.lineId !== lineId));
+  }, []);
+
+  const updateQuantity = useCallback((lineId: string, quantity: number) => {
     if (quantity <= 0) {
-      setItems((current) =>
-        current.filter((item) => item.productId !== productId),
-      );
+      setItems((current) => current.filter((item) => item.lineId !== lineId));
       return;
     }
 
     setItems((current) =>
       current.map((item) =>
-        item.productId === productId ? { ...item, quantity } : item,
+        item.lineId === lineId ? { ...item, quantity } : item,
       ),
     );
+  }, []);
+
+  const setGiftWrap = useCallback((lineId: string, giftWrap: boolean) => {
+    setItems((current) => {
+      const source = current.find((item) => item.lineId === lineId);
+      if (!source || source.giftWrap === giftWrap) {
+        return current;
+      }
+
+      const nextLineId = cartLineId(source.productId, giftWrap);
+      const withoutSource = current.filter((item) => item.lineId !== lineId);
+      const existingTarget = withoutSource.find(
+        (item) => item.lineId === nextLineId,
+      );
+
+      if (existingTarget) {
+        return withoutSource.map((item) =>
+          item.lineId === nextLineId
+            ? { ...item, quantity: item.quantity + source.quantity }
+            : item,
+        );
+      }
+
+      return [
+        ...withoutSource,
+        {
+          ...source,
+          giftWrap,
+          lineId: nextLineId,
+        },
+      ];
+    });
   }, []);
 
   const clearCart = useCallback(() => {
@@ -111,10 +198,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     [items],
   );
 
+  const giftWrapAmount = useMemo(
+    () =>
+      items.reduce(
+        (sum, item) =>
+          sum + (item.giftWrap ? GIFT_WRAP_AMOUNT * item.quantity : 0),
+        0,
+      ),
+    [items],
+  );
+
   const totalAmount = useMemo(
     () =>
-      items.reduce((sum, item) => sum + item.unitAmount * item.quantity, 0),
-    [items],
+      items.reduce((sum, item) => sum + item.unitAmount * item.quantity, 0) +
+      giftWrapAmount,
+    [items, giftWrapAmount],
   );
 
   const value = useMemo(
@@ -123,9 +221,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       isOpen,
       totalQuantity,
       totalAmount,
+      giftWrapAmount,
       addItem,
       removeItem,
       updateQuantity,
+      setGiftWrap,
       clearCart,
       openCart,
       closeCart,
@@ -135,9 +235,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       isOpen,
       totalQuantity,
       totalAmount,
+      giftWrapAmount,
       addItem,
       removeItem,
       updateQuantity,
+      setGiftWrap,
       clearCart,
       openCart,
       closeCart,

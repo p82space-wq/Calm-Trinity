@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { ProductImagePlaceholder } from "@/components/ui/ProductImagePlaceholder";
 import { useCart } from "@/hooks/useCart";
 import { formatPrice } from "@/lib/format";
+import { GIFT_WRAP_AMOUNT, GIFT_WRAP_LABEL } from "@/lib/gift-wrap";
 
 export function CartDrawer() {
   const {
@@ -17,7 +18,9 @@ export function CartDrawer() {
     closeCart,
     removeItem,
     updateQuantity,
+    setGiftWrap,
     totalAmount,
+    giftWrapAmount,
     clearCart,
   } = useCart();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
@@ -39,6 +42,8 @@ export function CartDrawer() {
           items: items.map((item) => ({
             priceId: item.priceId,
             quantity: item.quantity,
+            giftWrap: item.giftWrap,
+            name: item.name,
           })),
         }),
       });
@@ -104,7 +109,7 @@ export function CartDrawer() {
                 <ul className="space-y-6">
                   {items.map((item) => (
                     <li
-                      key={item.productId}
+                      key={item.lineId}
                       className="flex gap-4 border-b border-sand pb-6"
                     >
                       <div className="relative h-20 w-16 shrink-0 overflow-hidden bg-linen">
@@ -129,7 +134,7 @@ export function CartDrawer() {
                           <p className="text-sm text-forest">{item.name}</p>
                           <button
                             type="button"
-                            onClick={() => removeItem(item.productId)}
+                            onClick={() => removeItem(item.lineId)}
                             className="text-xs text-stone transition-colors hover:text-forest"
                           >
                             削除
@@ -140,14 +145,29 @@ export function CartDrawer() {
                           {formatPrice(item.unitAmount)}
                         </p>
 
+                        <label className="mt-3 flex cursor-pointer items-start gap-2 text-xs leading-relaxed text-charcoal">
+                          <input
+                            type="checkbox"
+                            checked={item.giftWrap}
+                            onChange={(event) =>
+                              setGiftWrap(item.lineId, event.target.checked)
+                            }
+                            className="mt-0.5 h-3.5 w-3.5 accent-forest"
+                          />
+                          <span>
+                            {GIFT_WRAP_LABEL}
+                            <span className="mt-0.5 block text-muted">
+                              +{formatPrice(GIFT_WRAP_AMOUNT)}（税込）×
+                              {item.quantity}
+                            </span>
+                          </span>
+                        </label>
+
                         <div className="mt-3 flex items-center gap-3">
                           <button
                             type="button"
                             onClick={() =>
-                              updateQuantity(
-                                item.productId,
-                                item.quantity - 1,
-                              )
+                              updateQuantity(item.lineId, item.quantity - 1)
                             }
                             className="flex h-7 w-7 items-center justify-center border border-sand text-forest transition-colors hover:bg-linen"
                             aria-label="数量を減らす"
@@ -160,10 +180,7 @@ export function CartDrawer() {
                           <button
                             type="button"
                             onClick={() =>
-                              updateQuantity(
-                                item.productId,
-                                item.quantity + 1,
-                              )
+                              updateQuantity(item.lineId, item.quantity + 1)
                             }
                             className="flex h-7 w-7 items-center justify-center border border-sand text-forest transition-colors hover:bg-linen"
                             aria-label="数量を増やす"
@@ -180,6 +197,14 @@ export function CartDrawer() {
 
             {items.length > 0 && (
               <div className="border-t border-sand px-6 py-6">
+                {giftWrapAmount > 0 && (
+                  <div className="mb-3 flex items-center justify-between text-sm">
+                    <span className="text-muted">{GIFT_WRAP_LABEL}</span>
+                    <span className="text-charcoal">
+                      {formatPrice(giftWrapAmount)}
+                    </span>
+                  </div>
+                )}
                 <div className="flex items-center justify-between">
                   <span className="text-xs uppercase tracking-[0.2em] text-stone">
                     Subtotal

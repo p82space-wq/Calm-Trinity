@@ -6,6 +6,7 @@ import { Accordion } from "@/components/ui/Accordion";
 import { Button } from "@/components/ui/Button";
 import { useCart } from "@/hooks/useCart";
 import { formatPrice } from "@/lib/format";
+import { GIFT_WRAP_AMOUNT, GIFT_WRAP_LABEL } from "@/lib/gift-wrap";
 import type { CalmProduct } from "@/types/product";
 
 type ProductDetailClientProps = {
@@ -15,6 +16,7 @@ type ProductDetailClientProps = {
 export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const [giftWrap, setGiftWrap] = useState(false);
 
   const accordionItems = [
     product.metadata.care && {
@@ -43,6 +45,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
         name: product.name,
         unitAmount: product.unitAmount,
         image: product.images[0] ?? null,
+        giftWrap,
       },
       quantity,
     );
@@ -63,9 +66,6 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       <p className="mt-6 text-xl text-charcoal">
         {formatPrice(product.unitAmount, product.currency)}
       </p>
-      <p className="mt-3 text-sm text-muted">
-        ギフト包装（巾着）あり ※220円（税込）
-      </p>
 
       {product.description && (
         <p className="mt-8 whitespace-pre-line leading-relaxed text-muted">
@@ -73,7 +73,22 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
         </p>
       )}
 
-      <div className="mt-10 flex items-center gap-6">
+      <label className="mt-8 flex cursor-pointer items-start gap-3 rounded-sm border border-sand bg-linen/40 px-4 py-4">
+        <input
+          type="checkbox"
+          checked={giftWrap}
+          onChange={(event) => setGiftWrap(event.target.checked)}
+          className="mt-1 h-4 w-4 accent-forest"
+        />
+        <span className="text-sm leading-relaxed text-charcoal">
+          <span className="font-medium text-forest">{GIFT_WRAP_LABEL}</span>
+          <span className="mt-1 block text-muted">
+            +{formatPrice(GIFT_WRAP_AMOUNT)}（税込）／1点あたり
+          </span>
+        </span>
+      </label>
+
+      <div className="mt-8 flex items-center gap-6">
         <div className="flex items-center border border-sand">
           <button
             type="button"

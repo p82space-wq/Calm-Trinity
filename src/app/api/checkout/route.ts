@@ -3,7 +3,12 @@ import { NextResponse } from "next/server";
 import { createCheckoutSession } from "@/lib/checkout-session";
 
 type CheckoutRequestBody = {
-  items: { priceId: string; quantity: number }[];
+  items: {
+    priceId: string;
+    quantity: number;
+    giftWrap?: boolean;
+    name?: string;
+  }[];
 };
 
 export async function POST(request: Request) {
@@ -14,7 +19,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
     }
 
-    const { url, sessionId } = await createCheckoutSession(body.items);
+    const items = body.items.filter(
+      (item) =>
+        typeof item.priceId === "string" &&
+        item.priceId.length > 0 &&
+        Number.isInteger(item.quantity) &&
+        item.quantity > 0,
+    );
+
+    if (!items.length) {
+      return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
+    }
+
+    const { url, sessionId } = await createCheckoutSession(items);
 
     return NextResponse.json({ url, sessionId });
   } catch (error) {
